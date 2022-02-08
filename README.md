@@ -1,2 +1,2 @@
-# Excel-VBA--statistik
-Excel, VBA ve İstatistik
+# Excel-VBA-İstatistik
+
