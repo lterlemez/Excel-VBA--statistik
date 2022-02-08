@@ -1,3 +1,5 @@
+... Dergisi makalesine ilişkin örnek kodları barındırmaktadır.
+
 ## Kontenjans Tablosu Oluşturma
 ```vba
 Private Sub CommandButton1_Click()
