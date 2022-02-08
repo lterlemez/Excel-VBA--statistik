@@ -93,4 +93,29 @@ Function kikare_testi(gozlem As Range)
   End If
 End Function
 ```
-
+## Fisher'in Kesin Ki-Kare Testi Olasılığının Hesaplanması
+```vba
+Function kikare_kesin(gozlem As Range)
+    Dim veri, deneme(1), p1 As Double, p2 As Double, p As Double
+    veri = gozlem
+    Do
+    deneme(0) = veri(2, 1): deneme(1) = veri(2, 2)
+    veri(2, 1) = veri(1, 1): veri(1, 1) = veri(1, 2)
+    veri(1, 2) = deneme(1): veri(2, 2) = deneme(0)
+    Loop Until (veri(1, 1) = WorksheetFunction.Min(gozlem))
+    veri(1, 3) = WorksheetFunction.Sum(veri(1, 1), veri(1, 2))
+    veri(2, 3) = WorksheetFunction.Sum(veri(2, 1), veri(2, 2))
+    veri(3, 1) = WorksheetFunction.Sum(veri(1, 1), veri(2, 1))
+    veri(3, 2) = WorksheetFunction.Sum(veri(1, 2), veri(2, 2))
+    veri(3, 3) = WorksheetFunction.Sum(veri(1, 3), veri(2, 3))
+    p = 0: p1 = 0: p2 = 0
+    For i = 0 To veri(1, 1)
+        With WorksheetFunction
+            p1 = .Fact(veri(1, 3)) * .Fact(veri(2, 3)) * .Fact(veri(3, 1)) * .Fact(veri(3, 2))
+            p2 = .Fact(veri(3, 3)) * .Fact(veri(1, 1) - i) * .Fact(veri(1, 2) + i) * .Fact(veri(2, 1) + i) * .Fact(veri(2, 2) - i)
+            p = p + (p1 / p2)
+        End With
+    Next i
+    kikare_kesin = p
+End Function
+```
