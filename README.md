@@ -99,9 +99,9 @@ Function kikare_kesin(gozlem As Range)
     Dim veri, deneme(1), p1 As Double, p2 As Double, p As Double
     veri = gozlem
     Do
-    deneme(0) = veri(2, 1): deneme(1) = veri(2, 2)
-    veri(2, 1) = veri(1, 1): veri(1, 1) = veri(1, 2)
-    veri(1, 2) = deneme(1): veri(2, 2) = deneme(0)
+        deneme(0) = veri(2, 1): deneme(1) = veri(2, 2)
+        veri(2, 1) = veri(1, 1): veri(1, 1) = veri(1, 2)
+        veri(1, 2) = deneme(1): veri(2, 2) = deneme(0)
     Loop Until (veri(1, 1) = WorksheetFunction.Min(gozlem))
     veri(1, 3) = WorksheetFunction.Sum(veri(1, 1), veri(1, 2))
     veri(2, 3) = WorksheetFunction.Sum(veri(2, 1), veri(2, 2))
