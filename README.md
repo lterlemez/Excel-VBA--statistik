@@ -1,4 +1,3 @@
-... Dergisi makalesine ilişkin örnek kodları barındırmaktadır.
 
 ## Kontenjans Tablosu Oluşturma
 ```vba
@@ -120,4 +119,3 @@ Function kikare_kesin(gozlem As Range)
 End Function
 ```
 
-### DOI: ....
