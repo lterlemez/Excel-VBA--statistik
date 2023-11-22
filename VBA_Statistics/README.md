@@ -49,14 +49,17 @@ Flowchart of calculation algorith for simple series:
 
 ```mermaid
 flowchart LR
-A([Start]) --> B[/ref/]
+A([Start]) --> B[/seri/]
 B-->C[/"&nbsp;&nbsp;r&nbsp;&nbsp"/]
-C-->D{ref.Cols.Count}
-D--1--> E{{"i=1;ref.Rows.Count"}}
-E-->F("t=t+ref(i)^r")-->G((i)) 
+C-->D{seri.Cols.Count}
+D--1--> E{{"i=1;seri.Rows.Count"}}
+E-->F("t=t+seri(i)^r")-->G((i)) 
 G-->E 
-E-->
-H("raw=t/seri.Rows.Count")-->I[/"moment_raw"/]-->J([Finish])
+E-->H("moment_raw=t/seri.Rows.Count")-->I[/"moment_raw"/]-->J([Finish])
+D--2-->K(Calc for Frequency Series)
+K-->I
+D--3-->L(Calc for Grouped Freq. Series)
+L-->I
 ```
 
 <img src="https://github.com/lterlemez/Excel-VBA-Istatistik/blob/main/VBA_Statistics/media/moment_raw.png" width="400"/>
