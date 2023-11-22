@@ -1,6 +1,8 @@
 # Some Statistical Calculation Examples For Grouped Frequency Series in Excel
 
-Excel has a large function library, including statistical ones varying from arithmetic mean to Gamma probability function. But, one of the problems is that most of these functions accepts data as simple series. And, sometimes, even statisticians may have to work with other series like frequency or grouped frequency series/tables/distributions. Excel also has some functions in its library that can help to do the math like **SUMPRODUCT** but again, you have to tell Excel how to do! So, here, I have some simple code samples to calculate more easily in Excel.
+
+{: .text-center} Excel has a large function library, including statistical ones varying from arithmetic mean to Gamma probability function. But, one of the problems is that most of these functions accepts data as simple series. And, sometimes, even statisticians may have to work with other series like frequency or grouped frequency series/tables/distributions. Excel also has some functions in its library that can help to do the math like **SUMPRODUCT** but again, you have to tell Excel how to do! So, here, I have some simple code samples to calculate more easily in Excel. 
+
 
 ## Some Central Tendency Measures
 
@@ -42,6 +44,20 @@ End Function
 ## Raw Moments of a Distribution
 
 If series' column count is 1 then it is assumed as simple series, if it is 2 then is assumed as frequency ditribution series, and if it is 3 then is assumed as grouped frequency distribution series and otherwise en error message will be shown.
+
+Flowchart of calculation algorith for simple simple series.
+
+```mermaid
+flowchart LR
+A([Start]) --> B[/ref/]
+B-->C[/"&nbsp;&nbsp;r&nbsp;&nbsp"/]
+C-->D{ref.Cols.Count}
+D--1--> E{{"i=1;ref.Rows.Count"}}
+E-->F("t=t+ref(i)^r")-->G((i)) 
+G-->E 
+E-->
+H("raw=t/seri.Rows.Count")-->I[/"moment_raw"/]-->J([Finish])
+```
 
 <img src="https://github.com/lterlemez/Excel-VBA-Istatistik/blob/main/VBA_Statistics/media/moment_raw.png" width="400"/>
 
