@@ -1,13 +1,14 @@
 # Some Statistical Calculation Examples For Grouped Frequency Series in Excel
-Excel has a large function library, including statistical ones varying from arithmetic mean to Gamma probability function. But, one of the problems is that most of these functions accepts data as simple series. And, sometimes, even statisticians may have to work with other series like frequency or grouped frequency series/tables/distributions. Excel also has some functions in its library that can help to do the math like **SUMPRODUCT** but again, you have to tell Excel how to do!
-So, here, I have some simple code samples to calculate more easily in Excel.
+
+Excel has a large function library, including statistical ones varying from arithmetic mean to Gamma probability function. But, one of the problems is that most of these functions accepts data as simple series. And, sometimes, even statisticians may have to work with other series like frequency or grouped frequency series/tables/distributions. Excel also has some functions in its library that can help to do the math like **SUMPRODUCT** but again, you have to tell Excel how to do! So, here, I have some simple code samples to calculate more easily in Excel.
 
 ## Some Central Tendency Measures
-This small function code can calculate arithmetic (metot=1 ,default) , geometric (2) and harmonic mean (3) for grouped frequency distribution entered  as  below in Excel spreadsheet. Of course all possible situations must be checked, this function do not have yet.
 
-<img src="https://github.com/lterlemez/Excel-VBA-Istatistik/blob/main/VBA_Statistics/media/grup_seri.PNG" width="400">
+This small function code can calculate arithmetic (metot=1 ,default) , geometric (2) and harmonic mean (3) for grouped frequency distribution entered as below in Excel spreadsheet. Of course all possible situations must be checked, this function do not have yet.
 
-```vba
+<img src="https://github.com/lterlemez/Excel-VBA-Istatistik/blob/main/VBA_Statistics/media/grup_seri.PNG" width="400"/>
+
+``` vba
 Function GOrtalama(veri As Range, Optional metot As Integer = 1)
     'Metot=1 Aritmetik Ortalama ve varsayılan
     'Metot=2 Geometrik Ortalama
@@ -42,10 +43,9 @@ End Function
 
 If series' column count is 1 then it is assumed as simple series, if it is 2 then is assumed as frequency ditribution series, and if it is 3 then is assumed as grouped frequency distribution series and otherwise en error message will be shown.
 
-<img src="https://github.com/lterlemez/Excel-VBA-Istatistik/blob/main/VBA_Statistics/media/moment_raw.png" width="400" >
+<img src="https://github.com/lterlemez/Excel-VBA-Istatistik/blob/main/VBA_Statistics/media/moment_raw.png" width="400"/>
 
-
-```vba
+``` vba
 Function moment_raw(seri As Range, Optional r As Integer = 1)
     Dim t As Single
     t = 0
@@ -71,13 +71,12 @@ Function moment_raw(seri As Range, Optional r As Integer = 1)
     End Select
 End Function
 ```
+
 ## Central Moments of a Distribution
-This code is consist of conversition formulas from raw moments, but it will have classic formula calculations, too.
-<img src="https://github.com/lterlemez/Excel-VBA-Istatistik/blob/main/VBA_Statistics/media/moment_cent.png" width="400" > </br>
-<img src="https://github.com/lterlemez/Excel-VBA-Istatistik/blob/main/VBA_Statistics/media/moment_cent_org.png" width="400" >
 
+This code is consist of conversition formulas from raw moments, but it will have classic formula calculations, too. <img src="https://github.com/lterlemez/Excel-VBA-Istatistik/blob/main/VBA_Statistics/media/moment_cent.png" width="400"/> </br> <img src="https://github.com/lterlemez/Excel-VBA-Istatistik/blob/main/VBA_Statistics/media/moment_cent_org.png" width="400"/>
 
-```vba
+``` vba
 Function moment_cent(moments As Range, Optional convert As Boolean = True, Optional r As Integer = 1, Optional mean As Single = 0)
     Dim t As Single
     t = 0
@@ -103,7 +102,10 @@ Function moment_cent(moments As Range, Optional convert As Boolean = True, Optio
                         Next i
                         moment_cent = t / WorksheetFunction.Sum(.Columns(2))
                     Case 3
-                    
+                        For Each i In seri.Rows
+                              t = t + (WorksheetFunction.Average(i.Columns(1).Value, i.Columns(2).Value)-mean) ^ r * i.Columns(3).Value
+                        Next i
+                        moment_raw = t / WorksheetFunction.Sum(seri.Columns(3))
                     Case Else
                         moment_cent = "#N/A!"
                 End Select
@@ -113,6 +115,3 @@ Function moment_cent(moments As Range, Optional convert As Boolean = True, Optio
     End With
 End Function
 ```
-
-
-
