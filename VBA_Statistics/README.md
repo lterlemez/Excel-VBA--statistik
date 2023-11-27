@@ -58,11 +58,11 @@ E---->H("moment_raw=t/seri.Rows.Count")-->J([moment_raw])
 B--2-->K{{"i=1;seri.Rows.Count"}}
 K-->M("t=t+seri(i,1)^r * seri(i,2)")-->N((i))
 N-->K
-K---->O("moment_raw=t/SUM(seri(,2)")-->J([moment_raw])
+K---->O("moment_raw=t/SUM(seri(,2))")-->J([moment_raw])
 B--3-->L{{"i=1;seri.Rows.Count"}}
 L-->P("t=t+(AVERAGE(seri(i,1),seri(i,2))^r * seri(i,3)")-->Q((i))
 Q-->L
-L---->R("moment_raw=t/SUM(seri(,3)")-->J([moment_raw])
+L---->R("moment_raw=t/SUM(seri(,3))")-->J([moment_raw])
 ```
 
 <img src="https://github.com/lterlemez/Excel-VBA-Istatistik/blob/main/VBA_Statistics/media/moment_raw.png" width="400"/>
