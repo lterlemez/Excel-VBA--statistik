@@ -54,9 +54,11 @@ B{seri.Cols.Count}
 B--1--> E{{"i=1;seri.Rows.Count"}} 
 E-->F("t=t+seri(i)^r")-->G((i)) 
 G-->E 
-E---->H("moment_raw=t/seri.Rows.Count")-->J([moment_raw])
-B--2-->K(Calc for Frequency Series)
-K-->J
+E--->H("moment_raw=t/seri.Rows.Count")-->J([moment_raw])
+B--2-->K{{"i=1;seri.Rows.Count"}}
+K-->M("t=t+seri(i,1)^r*seri(i,2)")-->N((i))
+N-->K
+K--->O("moment_raw=t/SUM(seri(,2)")-->J([moment_raw])
 B--3-->L(Calc for Grouped Freq. Series)
 L-->J
 ```
