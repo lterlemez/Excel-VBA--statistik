@@ -51,16 +51,16 @@ Flowchart of calculation algorith for simple series:
 flowchart LR
 A([seri, r]) --> B
 B{seri.Cols.Count}
-B--1--> E{{"i=1;seri.Rows.Count"}} 
+B--1--> E{{"i=1;seri.Rows.Count"}}
 E-->F("t=t+seri(i)^r")-->G((i)) 
-G-->E 
+G-->E
 E---->H("moment_raw=t/seri.Rows.Count")-->J([moment_raw])
 B--2-->K{{"i=1;seri.Rows.Count"}}
 K-->M("t=t+seri(i,1)^r * seri(i,2)")-->N((i))
 N-->K
 K---->O("moment_raw=t/SUM(seri(,2)")-->J([moment_raw])
 B--3-->L{{"i=1;seri.Rows.Count"}}
-L-->P("t=t+AVERAGE(seri(i,1),seri(i,2))^r * seri(i,3)")-->Q((i))
+L-->P("t=t+(AVERAGE(seri(i,1),seri(i,2))^r * seri(i,3)")-->Q((i))
 Q-->L
 L---->R("moment_raw=t/SUM(seri(,3)")-->J([moment_raw])
 ```
