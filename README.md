@@ -2,7 +2,7 @@
 
 Hi,
 
-In this repository, I will be showing my VBA macro samples. Right now, only two different working subdirectories as **statistics** (only in English and will have Turkish explanation, too) and **chi-square** (which has nothing at all except codes). For **VBA_Statistics**, pls click [here](../VBA_Statistics/README.md) and for **VBA_ChiSquare**, pls click [here](/VBA_ChiSquare/README.md)
+In this repository, I will be showing my VBA macro samples. Right now, only two different working subdirectories as **statistics** (only in English and will have Turkish explanation, too) and **chi-square** (which has nothing at all except codes). For **VBA_Statistics**, pls click [here](./VBA_Statistics/README.md) and for **VBA_ChiSquare**, pls click [here](./VBA_ChiSquare/README.md)
 
 ```mermaid
 
