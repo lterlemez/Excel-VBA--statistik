@@ -48,21 +48,24 @@ If series' column count is 1 then it is assumed as simple series, if it is 2 the
 Flowchart of calculation algorith for simple series:
 
 ```mermaid
+%%{ init: { 'flowchart': { 'curve': 'monotoneXY' } } }%%
 flowchart LR
 A([seri, r]) --> B
 B{seri.Cols.Count}
 B--1--> E{{"i=1;seri.Rows.Count"}}
 E-->F("t=t+seri(i)^r")-->G((i)) 
 G-->E
-E---->H("moment_raw=t/seri.Rows.Count")-->Z((" "))
+E----Z1((" ")):::hidden--->H("moment_raw=t/seri.Rows.Count")-->Z((" "))
 B--2-->K{{"i=1;seri.Rows.Count"}}
 K-->M("t=t+seri(i,1)^r * seri(i,2)")-->N((i))
 N-->K
-K---->O("moment_raw=t/SUM(seri(,2))")-->Z((" "))-->J([moment_raw])
+K----Z2((" ")):::hidden--->O("moment_raw=t/SUM(seri(,2))")-->Z((" "))-->J([moment_raw])
 B--3-->L{{"i=1;seri.Rows.Count"}}
 L-->P("t=t+(AVERAGE(seri(i,1),seri(i,2))^r * seri(i,3)")-->Q((i))
 Q-->L
-L---->R("moment_raw=t/SUM(seri(,3))")-->Z((" "))
+L----Z3((" ")):::hidden--->R("moment_raw=t/SUM(seri(,3))")-->Z((" "))
+linkStyle 5 stroke:black,stroke-width:2px,color;
+classDef hidden display: none;
 ```
 
 <img src="https://github.com/lterlemez/Excel-VBA-Istatistik/blob/main/VBA_Statistics/media/moment_raw.png" width="400"/>
