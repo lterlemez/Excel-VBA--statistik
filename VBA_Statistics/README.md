@@ -6,19 +6,20 @@ Excel has a large function library, including statistical ones varying from arit
 
 ## Some Central Tendency Measures
 
-This small function code can calculate arithmetic (metot=1 ,default) , geometric (2) and harmonic mean (3) for grouped frequency distribution entered as below in Excel spreadsheet. Of course all possible situations must be checked, this function do not have yet.
+This small function code can calculate **arithmetic mean** (metot=1 ,default) , **geometric mean** (2), **harmonic mean** (3) and **root mean square** (4) for ___grouped frequency distribution___ entered as below in Excel spreadsheet. Of course all possible situations must be checked, this function do not have yet.
 
 <img src="https://github.com/lterlemez/Excel-VBA-Istatistik/blob/main/VBA_Statistics/media/grup_seri.PNG" width="400"/>
 
 ``` vba
 Function GOrtalama(veri As Range, Optional metot As Integer = 1)
-    'Metot=1 Aritmetik Ortalama ve varsayılan
-    'Metot=2 Geometrik Ortalama
-    'Metot=3 Harmonik Ortalama
+    'Metot=1 Aritmetik Ortalama ve varsayılan (Arithmetic Mean and set as default)
+    'Metot=2 Geometrik Ortalama (Geometric Mean)
+    'Metot=3 Harmonik Ortalama (Harmonic Mean)
+    'Metot=4 Kareli Ortalama (Root Mean Square)
     toplam = 0
     If metot = 1 Then
         For i = 1 To veri.Rows.Count
-            toplam = toplam + WorksheetFunction.Average(Range(veri.Cells(i, 1), veri.Cells(i, 2))) * veri.Cells(i, 3)
+            toplam = toplam + WorksheetFunction.Average(veri.Cells(i, 1), veri.Cells(i, 2)) * veri.Cells(i, 3)
         Next i
         ort = toplam / WorksheetFunction.Sum(veri.Columns(3))
     ElseIf metot = 2 Then
@@ -28,12 +29,12 @@ Function GOrtalama(veri As Range, Optional metot As Integer = 1)
         ort = WorksheetFunction.Power(10, (toplam / WorksheetFunction.Sum(veri.Columns(3))))
     ElseIf metot = 3 Then
         For i = 1 To veri.Rows.Count
-            toplam = toplam + veri.Cells(i, 3) / (WorksheetFunction.Average(Range(veri.Cells(i, 1), veri.Cells(i, 2))))
+            toplam = toplam + veri.Cells(i, 3) / (WorksheetFunction.Average(veri.Cells(i, 1), veri.Cells(i, 2)))
         Next i
         ort = WorksheetFunction.Sum(veri.Columns(3)) / toplam
     ElseIf metot = 4 Then
         For i = 1 To veri.Rows.Count
-            toplam = toplam + WorksheetFunction.Power(WorksheetFunction.Average(Range(veri.Cells(i, 1), veri.Cells(i, 2))), 2) * veri.Cells(i, 3)
+            toplam = toplam + WorksheetFunction.Power(WorksheetFunction.Average(veri.Cells(i, 1), veri.Cells(i, 2)), 2) * veri.Cells(i, 3)
         Next i
         ort = Sqr(toplam / WorksheetFunction.Sum(veri.Columns(3)))
     End If
@@ -85,7 +86,6 @@ Function moment_raw(seri As Range, Optional r As Integer = 1)
                 t = t + (i.Columns(1).Value ^ r) * i.Columns(2).Value
             Next i
             moment_raw = t / WorksheetFunction.Sum(seri.Columns(2))
-            
         Case 3
             For Each i In seri.Rows
                 t = t + WorksheetFunction.Average(i.Columns(1).Value, i.Columns(2).Value) ^ r * i.Columns(3).Value
