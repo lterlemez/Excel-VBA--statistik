@@ -9,6 +9,7 @@ Excel has a large function library, including statistical ones varying from arit
 This small function code can calculate **arithmetic mean** (metot=1 ,default) , **geometric mean** (2), **harmonic mean** (3) and **root mean square** (4) for ___grouped frequency distribution___ entered as below in Excel spreadsheet. Of course all possible situations must be checked, this function do not have yet.
 
 <img src="https://github.com/lterlemez/Excel-VBA-Istatistik/blob/main/VBA_Statistics/media/grup_seri.PNG" width="400"/>
+
 ***Figure 1:*** *Calculation example for grouped frequency distribution*
 
 ``` vba
