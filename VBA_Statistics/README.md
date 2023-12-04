@@ -3,6 +3,68 @@
 
 Excel has a large function library, including statistical ones varying from arithmetic mean to Gamma probability function. But, one of the problems is that most of these functions accepts data as simple series. And, sometimes, even statisticians may have to work with other series like frequency or grouped frequency series/tables/distributions. Excel also has some functions in its library that can help to do the math like **SUMPRODUCT** but again, you have to tell Excel how to do! So, here, I have some simple code samples to calculate more easily in Excel. 
 
+## Some Rules to Select Number or Width of Bins for Histogram and Grouping Data
+
+There is no **best** choice of ***number*** or ***width*** of **bins** for _histogram_ or _grouping data_, but there are some _suggested rules_ to use for choosing. This small function is calculating number or width of bins for a given simple series.
+
+```vba
+'While two declarations are made in General Declaration of the module in use
+Enum etiketler
+        Karekok = 1
+        Sturges = 2
+        Rice = 3
+        Doane = 4
+        Scott = 5
+        FD = 6
+End Enum
+Dim yuvarla As Boolean
+
+Function grupla(veri As Range, Optional metot As etiketler = Sturges, Optional yuvarla = False)
+    Dim x As Integer
+    If veri.Columns.Count = 1 Then
+        n = veri.Rows.Count
+    ElseIf veri.Rows.Count = 1 Then
+        n = veri.Columns.Count
+    Else
+        MsgBox "Veriniz satır veya sütun şeklinde olmalı!"
+               '"Your data must be in rows or columns!"
+    End If
+    With WorksheetFunction
+        Select Case metot
+            Case Karekok
+                'Grup sayısı döndürür/Returns number of bins
+                k = WorksheetFunction.Ceiling(Sqr(n), 1)
+                grupla = k
+            Case Sturges
+                'Grup sayısı döndürür/Returns number of bins
+                k = .Ceiling(.Log(n, 2), 1) + 1
+                grupla = k
+            Case Rice
+                'Grup sayısı döndürür/Returns number of bins
+                k = .Ceiling(2 * .Power(n, 1 / 3), 1)
+                grupla = k
+            Case Doane
+                'Grup sayısı döndürür/Returns number of bins
+                sd = Sqr((6 * (n - 2)) / ((n + 1) * (n + 3)))
+                k = 1 + .Ceiling(.Log(n, 2) + .Log(1 + Abs(.Skew(veri)) / sd, 2), 1)
+                grupla = k
+            Case Scott
+                'Grup aralığı döndürür/Returns width of bins
+                h = 3.5 * .StDev_S(veri) / .Power(n, 1 / 3)
+                grupla = h
+            Case FD
+                'Grup aralığı döndürür/Returns width of bins
+                h = 2 * (.Quartile_Exc(veri, 3) - .Quartile_Exc(veri, 1)) / .Power(n, 1 / 3)
+                grupla = h
+        End Select
+        If yuvarla Then
+            grupla = .Round(grupla, 2)
+        Else
+            grupla = grupla
+            End If
+    End With
+End Function
+```
 
 ## Some Central Tendency Measures
 
