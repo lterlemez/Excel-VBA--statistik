@@ -7,6 +7,15 @@ Excel has a large function library, including statistical ones varying from arit
 
 There is no **best** choice of ***number*** or ***width*** of **bins** for _histogram_ or _grouping data_, but there are some _suggested rules_ that can be used for choosing. This small function is calculating number or width of bins for a given simple series.
 
+### Square-root Rule
+&nbsp;&nbsp;&nbsp;&nbsp; $k=\lceil\text{ } \sqrt{n}\text{ } \rceil$
+
+### Sturges' Rule
+&nbsp;&nbsp;&nbsp;&nbsp; $k=\lceil log_2 n \rceil +1$
+
+### Rice Rule
+
+&nbsp;&nbsp;&nbsp;&nbsp; $k=\lceil\text{ } 2 \sqrt[3]{n} \text{ } \rceil$
 ```vba
 'While two declarations were made in general declaration section of the module in use
 'Kullanılan modülün genel bildirimler bölümünde iki bildirim yapılmış iken
