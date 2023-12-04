@@ -5,7 +5,7 @@ Excel has a large function library, including statistical ones varying from arit
 
 ## Some Rules to Select Number or Width of Bins for Histogram and Grouping Data
 
-There is no **best** choice of ***number*** or ***width*** of **bins** for _histogram_ or _grouping data_, but there are some _suggested rules_ to use for choosing. This small function is calculating number or width of bins for a given simple series.
+There is no **best** choice of ***number*** or ***width*** of **bins** for _histogram_ or _grouping data_, but there are some _suggested rules_ that can be used for choosing. This small function is calculating number or width of bins for a given simple series.
 
 ```vba
 'While two declarations are made in General Declaration of the module in use
