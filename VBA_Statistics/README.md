@@ -8,7 +8,8 @@ Excel has a large function library, including statistical ones varying from arit
 There is no **best** choice of ***number*** or ***width*** of **bins** for _histogram_ or _grouping data_, but there are some _suggested rules_ that can be used for choosing. This small function is calculating number or width of bins for a given simple series.
 
 ```vba
-'While two declarations are made in General Declaration of the module in use
+'While two declarations were made in general declaration section of the module in use
+'Kullanılan modülün genel bildirimler bölümünde iki bildirim yapılmış iken
 Enum etiketler
         Karekok = 1
         Sturges = 2
@@ -26,8 +27,7 @@ Function grupla(veri As Range, Optional metot As etiketler = Sturges, Optional y
     ElseIf veri.Rows.Count = 1 Then
         n = veri.Columns.Count
     Else
-        MsgBox "Veriniz satır veya sütun şeklinde olmalı!"
-               '"Your data must be in rows or columns!"
+        MsgBox "Veriniz satır veya sütun şeklinde olmalı!" '/"Your data must be in rows or columns!"
     End If
     With WorksheetFunction
         Select Case metot
