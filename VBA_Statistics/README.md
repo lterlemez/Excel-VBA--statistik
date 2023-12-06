@@ -11,7 +11,8 @@ There is no **best** choice of ***number*** or ***width*** of **bins** for _hist
 &nbsp;&nbsp;&nbsp;&nbsp; $k=\lceil\text{ } \sqrt{n}\text{ } \rceil$
 
 ### Sturges' Rule
-&nbsp;&nbsp;&nbsp;&nbsp; #$k=1+\lceil log_2 n \rceil$
+
+&nbsp;&nbsp;&nbsp;&nbsp; $k=1+\lceil log_2 n \rceil$
 
 ### Rice Rule
 
