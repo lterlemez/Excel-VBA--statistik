@@ -18,7 +18,7 @@ C("VBA_ChiSquare")
 
 Merhaba,
 
-Bu depoda, VBA makro örneklerimi göstereceğim. Şu anda, **istatistik** (yalnızca İngilizce ve Türkçe açıklaması da olacak) ve **ki-kare** (kodlar dışında hiçbir şeyi olmayan) olmak üzere yalnızca iki farklı çalışan alt dizin var. **VBA_Statistics** için [burayı](./VBA_Statistics/README) ve **VBA_ChiSquare** için [burayı](./VBA_ChiSquare/README) tıklayabilirsiniz.
+Bu depoda, VBA makro örneklerimi göstereceğim. Şu anda, **istatistik** (yalnızca İngilizce ve Türkçe açıklaması da olacak) ve **ki-kare** (kodlar dışında hiçbir şeyi olmayan) olmak üzere yalnızca iki farklı çalışan alt dizin var. **VBA_Statistics** için [burayı](./VBA_Statistics/README(TUR)) ve **VBA_ChiSquare** için [burayı](./VBA_ChiSquare/README.md) tıklayabilirsiniz.
 
 ```mermaid
 
