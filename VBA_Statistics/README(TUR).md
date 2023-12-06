@@ -18,6 +18,19 @@ _Histogram_ veya _veri gruplandırma_ için **grup** ***sayısı*** veya ***geni
 
 &nbsp;&nbsp;&nbsp;&nbsp; $k=\lceil\text{ } 2 \sqrt[3]{n} \text{ } \rceil$
 
+### Doane's Rule
+
+&nbsp;&nbsp;&nbsp;&nbsp; $k=1+\lceil log_2 n +log_2(1+\frac{\left | g_1 \right |}{\sigma_{g_1}})\rceil$; burada $g_1$, dağılımın dağılımın çarpıklığının bir tahmini iken
+
+&nbsp;&nbsp;&nbsp;&nbsp; $\sigma_{g_1}=\sqrt{\frac{6(n-1)}{(n+1)(n+3)}}$
+
+### Scott's Rule
+
+&nbsp;&nbsp;&nbsp;&nbsp; $h=\frac{3.49 \hat{\sigma}}{\sqrt[3]{n}}$; burada $\hat{\sigma}$ örneklem standart sapmasını ifade eder.
+
+### Freedman-Diaconis's (FD) Rule
+
+&nbsp;&nbsp;&nbsp;&nbsp; $h=2\frac{KAF(x)}{\sqrt[3]{n}}$; burada KAF, kartiller arası farkı ifade eder.
 
 ```vba
 'While two declarations were made in general declaration section of the module in use
