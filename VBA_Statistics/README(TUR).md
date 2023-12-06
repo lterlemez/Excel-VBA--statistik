@@ -12,7 +12,7 @@ _Histogram_ veya _veri gruplandırma_ için **grup** ***sayısı*** veya ***geni
 
 ### Sturges Kuralı
 
-&nbsp;&nbsp;&nbsp;&nbsp; $k=\lceil log_2 n \rceil +1$
+&nbsp;&nbsp;&nbsp;&nbsp; $k=1+\lceil log_2 n \rceil$
 
 ### Rice Kuralı
 
