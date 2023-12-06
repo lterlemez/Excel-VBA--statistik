@@ -4,7 +4,7 @@ Excel, aritmetik ortalamadan Gamma olasılık fonksiyonuna kadar değişen istat
 
 ## Histogram ve Verilerin Gruplandırılması için Grup Sayısını veya Genişliğini Seçmek İçin Bazı Kurallar
 
-_Histogram_ veya _veri gruplandırma_ için **grup** ***sayısı*** veya ***genişliği*** seçiminde **en iyi** seçim yoktur, ancak seçim için kullanılabilecek bazı _önerilen kurallar_ vardır. Bu küçük fonksiyon, belirli bir basit seri için grup sayısı veya genişliği hesaplamaktadır.
+_Histogram_ veya _veri gruplandırma_ için **grup** ***sayısı*** ($k$) veya ***genişliği*** ($h$) seçiminde **en iyi** seçim yoktur, ancak seçim için kullanılabilecek bazı _önerilen kurallar_ vardır. Bu küçük fonksiyon, belirli bir basit seri için grup sayısı veya genişliği hesaplamaktadır.
 
 ### Karekök Kuralı
 
