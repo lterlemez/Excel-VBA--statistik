@@ -11,11 +11,26 @@ There is no **best** choice of ***number*** or ***width*** of **bins** for _hist
 &nbsp;&nbsp;&nbsp;&nbsp; $k=\lceil\text{ } \sqrt{n}\text{ } \rceil$
 
 ### Sturges' Rule
-&nbsp;&nbsp;&nbsp;&nbsp; $k=\lceil log_2 n \rceil +1$
+&nbsp;&nbsp;&nbsp;&nbsp; #$k=1+\lceil log_2 n \rceil$
 
 ### Rice Rule
 
 &nbsp;&nbsp;&nbsp;&nbsp; $k=\lceil\text{ } 2 \sqrt[3]{n} \text{ } \rceil$
+
+### Doane's Rule
+
+&nbsp;&nbsp;&nbsp;&nbsp; $k=1+\lceil log_2 n +log_2(1+\frac{\left | g_1 \right |}{\sigma_{g_1}})\rceil$; where $g_1$ is the estimate of skewness of the distribution and
+
+&nbsp;&nbsp;&nbsp;&nbsp; $\sigma_{g_1}=\sqrt{\frac{6(n-1)}{(n+1)(n+3)}}$
+
+### Scott's Rule
+
+&nbsp;&nbsp;&nbsp;&nbsp; $h=\frac{3.49 \hat{\sigma}}{\sqrt[3]{n}}$; where $\hat{\sigma}$ is the sample standart deviation.
+
+### Freedman-Diaconis's (FD) Rule
+
+&nbsp;&nbsp;&nbsp;&nbsp; $h=2\frac{IQR(x)}{\sqrt[3]{n}}$
+
 ```vba
 'While two declarations were made in general declaration section of the module in use
 'Kullanılan modülün genel bildirimler bölümünde iki bildirim yapılmış iken
