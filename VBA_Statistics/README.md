@@ -33,8 +33,8 @@ There is no **best** choice of ***number*** ($k$) or ***width*** ($h$) of **bins
 &nbsp;&nbsp;&nbsp;&nbsp; $h=2\frac{IQR(x)}{\sqrt[3]{n}}$
 
 ```vba
-'While two declarations were made in general declaration section of the module in use
-'Kullanılan modülün genel bildirimler bölümünde iki bildirim yapılmış iken
+'While below declaration was made in general declaration section of the module in use
+'Kullanılan modülün genel bildirimler bölümünde aşağıdaki bildirim yapılmış iken
 Enum etiketler
         Karekok = 1
         Sturges = 2
@@ -43,10 +43,9 @@ Enum etiketler
         Scott = 5
         FD = 6
 End Enum
-Dim yuvarla As Boolean
 
-Function grupla(veri As Range, Optional metot As etiketler = Sturges, Optional yuvarla = False)
-    Dim x As Integer
+Function grupla(veri As Range, Optional metot As etiketler = Sturges, Optional yuvarla As Boolean = False)
+    Dim n As Integer, k as Integer, h As Single
     If veri.Columns.Count = 1 Then
         n = veri.Rows.Count
     ElseIf veri.Rows.Count = 1 Then
