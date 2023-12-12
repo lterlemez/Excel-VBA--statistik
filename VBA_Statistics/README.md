@@ -120,6 +120,8 @@ C5--False-->C6{metot=6}--True-->E6["m = .Match(.Max(veri.Columns(3)), veri.Colum
 R([Grup_Ortalama])
 C6--False-->R1(["Error Check..!"])
 
+linkStyle 5 stroke:black,stroke-width:2px,color;
+classDef hidden display: none;
 ```
 
 
