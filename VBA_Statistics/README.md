@@ -106,18 +106,17 @@ flowchart LR
 
 A(["veri, metot=1"]) --> B["toplam=0"] --> C1
 C1{metot=1} --True--> E1{{"i=1;veri.Rows.Count"}}
-E1-->F1("t=t+.Average(veri.Cells(i, 1).Value, veri.Cells(i, 2).Value) * veri.Cells(i, 3).Value")-->G1((i))-->E1--->H1["Grup_Ortalama=toplam/.Sum(veri.Columns(3))"]-->R
+E1-->F1["t=t+\n.Average(veri.Cells(i, 1).Value, veri.Cells(i, 2).Value) * veri.Cells(i, 3).Value"]-->G1((i))-->E1---->H1["Grup_Ortalama=toplam/.Sum(veri.Columns(3))"]-->R
 C1--False-->C2{metot=2}--True-->E2{{"i=1;veri.Rows.Count"}}
-E2-->F2("t=t+.Log(.Average(veri.Cells(i, 1).Value, veri.Cells(i, 2).Value)) * veri.Cells(i, 3).Value")-->G2((i))-->E2--->H2["Grup_Ortalama=.Power(10,(toplam/.Sum(veri.Columns(3))))"]-->R
+E2-->F2["t=t+\n.Log(.Average(veri.Cells(i, 1).Value, veri.Cells(i, 2).Value)) * veri.Cells(i, 3).Value"]-->G2((i))-->E2---->H2["Grup_Ortalama=.Power(10,(toplam/.Sum(veri.Columns(3))))"]-->R
 C2--False-->C3{metot=3}--True-->E3{{"i=1;veri.Rows.Count"}}
-E3-->F3("t=t+veri.Cells(i, 3).Value / (.Average(veri.Cells(i, 1).Value, veri.Cells(i, 2).Value))")-->G3((i))-->E3--->H3["Grup_Ortalama=.Sum(veri.Columns(3))/toplam"]-->R
+E3-->F3["t=t+\nveri.Cells(i, 3).Value / (.Average(veri.Cells(i, 1).Value, veri.Cells(i, 2).Value))"]-->G3((i))-->E3---->H3["Grup_Ortalama=.Sum(veri.Columns(3))/toplam"]-->R
 C3--False-->C4{metot=4}--True-->E4{{"i=1;veri.Rows.Count"}}
-E4-->F4("t=t+.Power(.Average(veri.Cells(i, 1).Value, veri.Cells(i, 2).Value), 2) * veri.Cells(i, 3).Value")-->G4((i))-->E4--->H4["Grup_Ortalama=Sqr(toplam/.Sum(veri.Columns(3)))"]-->R
+E4-->F4["t=t+\n.Power(.Average(veri.Cells(i, 1).Value, veri.Cells(i, 2).Value), 2) * veri.Cells(i, 3).Value"]-->G4((i))-->E4---->H4["Grup_Ortalama=Sqr(toplam/.Sum(veri.Columns(3)))"]-->R
 C4--False-->C5{metot=5}--True-->E5{{"i=1;veri.Rows.Count"}}
-E5-->F5{".Sum(veri.Columns(3)) / 2 \n<=\n .Sum(Range(veri.Cells(1, 3), veri.Cells(i, 3)))"}--True--->H5["Grup_Ortalama = veri.Cells(i, 1).Value + (((.Sum(veri.Columns(3)) / 2) - .Sum(Range(veri.Cells(1, 3), veri.Cells(i - 1, 3))))\n / veri.Cells(i, 3).Value) * (veri.Cells(i, 2).Value - veri.Cells(i, 1).Value)"]-->R
+E5-->F5{".Sum(veri.Columns(3)) / 2 \n<=\n .Sum(Range(veri.Cells(1, 3), veri.Cells(i, 3)))"}--True---->H5["Grup_Ortalama = veri.Cells(i, 1).Value + (((.Sum(veri.Columns(3)) / 2) - .Sum(Range(veri.Cells(1, 3), veri.Cells(i - 1, 3))))\n / veri.Cells(i, 3).Value) * (veri.Cells(i, 2).Value - veri.Cells(i, 1).Value)"]-->R
 F5--False-->G5((i))-->E5
-
-C5--False-->C6{metot=6}--True-->E6["m = .Match(.Max(veri.Columns(3)), veri.Columns(3), 0)"]-->F6["Grup_Ortalama = veri.Cells(m, 1).Value + Abs(veri.Cells(m, 3).Value - veri.Cells(m - 1, 3).Value) \n / (Abs(veri.Cells(m, 3).Value - veri.Cells(m - 1, 3).Value) + Abs(veri.Cells(m, 3).Value - veri.Cells(m + 1, 3).Value)) \n * (veri.Cells(m, 2).Value - veri.Cells(m, 1).Value)"]-->R
+C5--False-->C6{metot=6}--True-->E6["m = .Match(.Max(veri.Columns(3)), veri.Columns(3), 0)"]---->F6["Grup_Ortalama = veri.Cells(m, 1).Value + Abs(veri.Cells(m, 3).Value - veri.Cells(m - 1, 3).Value) \n / (Abs(veri.Cells(m, 3).Value - veri.Cells(m - 1, 3).Value) + Abs(veri.Cells(m, 3).Value - veri.Cells(m + 1, 3).Value)) \n * (veri.Cells(m, 2).Value - veri.Cells(m, 1).Value)"]-->R
 R([Grup_Ortalama])
 C6--False-->R1(["Error Check..!"])
 
@@ -151,7 +150,7 @@ Function Grup_Ortalama(veri As Range, Optional metot As Integer = 1) As Single
             For i = 1 To veri.Rows.Count
                 toplam = toplam + veri.Cells(i, 3).Value / (.Average(veri.Cells(i, 1).Value, veri.Cells(i, 2).Value))
             Next i
-            Grup_Ortalama = WorksheetFunction.Sum(veri.Columns(3)) / toplam
+            Grup_Ortalama = .Sum(veri.Columns(3)) / toplam
         ElseIf metot = 4 Then
             For i = 1 To veri.Rows.Count
                 toplam = toplam + .Power(.Average(veri.Cells(i, 1).Value, veri.Cells(i, 2).Value), 2) * veri.Cells(i, 3).Value
