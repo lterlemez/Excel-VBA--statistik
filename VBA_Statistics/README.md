@@ -98,35 +98,67 @@ This small function code can calculate **arithmetic mean** (metot=1 ,default) , 
 
 ***Figure 1:*** *Calculation example for grouped frequency distribution*
 
+Flowchart of the calculation algorithym for grouped data:
+
+```mermaid
+%%{ init: { 'flowchart': { 'curve': 'monotoneXY' } } }%%
+flowchart LR
+
+A(["veri, metot=1"]) --> B["toplam=0"] --> C1
+C1{metot=1} --True--> E1{{"i=1;veri.Rows.Count"}}
+E1-->F1("t=t+.Average(veri.Cells(i, 1).Value, veri.Cells(i, 2).Value) * veri.Cells(i, 3).Value")-->G1((i))-->E1--->H1["Grup_Ortalama=.Sum(veri.Columns(3))"]-->R
+C1--False-->C2{metot=2}--True-->E2{{"i=1;veri.Rows.Count"}}
+E2-->F2("t=t+.Log(.Average(Range(veri.Cells(i, 1), veri.Cells(i, 2)))) * veri.Cells(i, 3).Value")-->G2((i))-->E2--->H2["Grup_Ortalama=.Sum(veri.Columns(3))"]-->R
+
+R([Grup_Ortalama])
+
+
+```
+
+
 ``` vba
-Function GOrtalama(veri As Range, Optional metot As Integer = 1)
+Function Grup_Ortalama(veri As Range, Optional metot As Integer = 1) As Single
     'Metot=1 Aritmetik Ortalama ve varsayılan (Arithmetic Mean and set as default)
     'Metot=2 Geometrik Ortalama (Geometric Mean)
     'Metot=3 Harmonik Ortalama (Harmonic Mean)
     'Metot=4 Kareli Ortalama (Root Mean Square)
+    'Metot=5 Medyan (Median)
+    'Metot=6 Mod (Mode)
+    Dim i As Integer, m As Integer
+    Dim toplam As Single
+    
     toplam = 0
-    If metot = 1 Then
-        For i = 1 To veri.Rows.Count
-            toplam = toplam + WorksheetFunction.Average(veri.Cells(i, 1), veri.Cells(i, 2)) * veri.Cells(i, 3)
-        Next i
-        ort = toplam / WorksheetFunction.Sum(veri.Columns(3))
-    ElseIf metot = 2 Then
-        For i = 1 To veri.Rows.Count
-            toplam = toplam + WorksheetFunction.Log(WorksheetFunction.Average(Range(veri.Cells(i, 1), veri.Cells(i, 2)))) * veri.Cells(i, 3)
-        Next i
-        ort = WorksheetFunction.Power(10, (toplam / WorksheetFunction.Sum(veri.Columns(3))))
-    ElseIf metot = 3 Then
-        For i = 1 To veri.Rows.Count
-            toplam = toplam + veri.Cells(i, 3) / (WorksheetFunction.Average(veri.Cells(i, 1), veri.Cells(i, 2)))
-        Next i
-        ort = WorksheetFunction.Sum(veri.Columns(3)) / toplam
-    ElseIf metot = 4 Then
-        For i = 1 To veri.Rows.Count
-            toplam = toplam + WorksheetFunction.Power(WorksheetFunction.Average(veri.Cells(i, 1), veri.Cells(i, 2)), 2) * veri.Cells(i, 3)
-        Next i
-        ort = Sqr(toplam / WorksheetFunction.Sum(veri.Columns(3)))
-    End If
-    GOrtalama = ort
+    With WorksheetFunction
+        If metot = 1 Then
+            For i = 1 To veri.Rows.Count
+                toplam = toplam + .Average(veri.Cells(i, 1).Value, veri.Cells(i, 2).Value) * veri.Cells(i, 3).Value
+            Next i
+            Grup_Ortalama = toplam / .Sum(veri.Columns(3))
+        ElseIf metot = 2 Then
+            For i = 1 To veri.Rows.Count
+                toplam = toplam + .Log(.Average(veri.Cells(i, 1).Value, veri.Cells(i, 2).Value)) * veri.Cells(i, 3).Value
+            Next i
+            Grup_Ortalama = .Power(10, (toplam / .Sum(veri.Columns(3))))
+        ElseIf metot = 3 Then
+            For i = 1 To veri.Rows.Count
+                toplam = toplam + veri.Cells(i, 3).Value / (.Average(veri.Cells(i, 1).Value, veri.Cells(i, 2).Value))
+            Next i
+            Grup_Ortalama = WorksheetFunction.Sum(veri.Columns(3)) / toplam
+        ElseIf metot = 4 Then
+            For i = 1 To veri.Rows.Count
+                toplam = toplam + .Power(.Average(veri.Cells(i, 1).Value, veri.Cells(i, 2).Value), 2) * veri.Cells(i, 3).Value
+            Next i
+            Grup_Ortalama = Sqr(toplam / .Sum(veri.Columns(3)))
+        ElseIf metot = 5 Then
+            For i = 1 To veri.Rows.Count
+                If .Sum(veri.Columns(3)) / 2 <= .Sum(Range(veri.Cells(1, 3), veri.Cells(i, 3))) Then Exit For
+            Next i
+            Grup_Ortalama = veri.Cells(i, 1).Value + (((.Sum(veri.Columns(3)) / 2) - .Sum(Range(veri.Cells(1, 3), veri.Cells(i - 1, 3)))) / veri.Cells(i, 3).Value) * (veri.Cells(i, 2).Value - veri.Cells(i, 1).Value)
+        ElseIf metot = 6 Then
+            m = .Match(.Max(veri.Columns(3)), veri.Columns(3), 0)
+            Grup_Ortalama = veri.Cells(m, 1).Value + Abs(veri.Cells(m, 3).Value - veri.Cells(m - 1, 3).Value) / (Abs(veri.Cells(m, 3).Value - veri.Cells(m - 1, 3).Value) + Abs(veri.Cells(m, 3).Value - veri.Cells(m + 1, 3).Value)) * (veri.Cells(m, 2).Value - veri.Cells(m, 1).Value)
+        End If
+    End With
 End Function
 ```
 
@@ -134,7 +166,7 @@ End Function
 
 If series' column count is 1 then it is assumed as simple series, if it is 2 then is assumed as frequency ditribution series, and if it is 3 then is assumed as grouped frequency distribution series and otherwise en error message will be shown.
 
-Flowchart of calculation algorith for simple series:
+Flowchart of calculation algorithym for simple series:
 
 ```mermaid
 %%{ init: { 'flowchart': { 'curve': 'monotoneXY' } } }%%
