@@ -94,7 +94,6 @@ In this section, I have two VBA code blocks for preperation to histogram plot an
 
 ```vba
 Private Function dikdortgen(aralik As Range, f As Single, Optional hangisi = "x")
-    'Debug.Print (aralik.Address)
     dortgenx = Array(aralik.Cells(1, 1), aralik.Cells(1, 1), aralik.Cells(1, 2), aralik.Cells(1, 2), aralik.Cells(1, 1))
     dortgeny = Array(0, f, f, 0, 0)
     Select Case hangisi
