@@ -89,6 +89,22 @@ Function grupla(veri As Range, Optional metot As etiketler = Sturges, Optional y
     End With
 End Function
 ```
+## Preperation to Histogram Plot
+In this section, I have a small code for preperatiob to histogram plot. It prepares the drawing points of the rectangulars representing the data groups in the plot.
+
+```vba
+Private Function dikdortgen(aralik As Range, f As Single, Optional hangisi = "x")
+    'Debug.Print (aralik.Address)
+    dortgenx = Array(aralik.Cells(1, 1), aralik.Cells(1, 1), aralik.Cells(1, 2), aralik.Cells(1, 2), aralik.Cells(1, 1))
+    dortgeny = Array(0, f, f, 0, 0)
+    Select Case hangisi
+        Case "x"
+            dikdortgen = dortgenx
+        Case "y"
+            dikdortgen = dortgeny
+        End Select
+End Function
+```
 
 ## Some Central Tendency Measures
 
