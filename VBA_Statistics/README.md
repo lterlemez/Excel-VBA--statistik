@@ -90,7 +90,7 @@ Function grupla(veri As Range, Optional metot As etiketler = Sturges, Optional y
 End Function
 ```
 ## Preperation to Histogram Plot
-In this section, I have a small code for preperatiob to histogram plot. It prepares the drawing points of the rectangulars representing the data groups in the plot.
+In this section, I have two VBA code blocks for preperation to histogram plot and ploting of it. The first one, _function routine_ ***dikdortgen*** which means rectangular and written as "dikdörtgen", prepares the drawing points of the rectangulars representing the data groups in the plot, and the second one, _sub routine_ ***histo***, will plot the histogram with the help of ***dikdortgen***.
 
 ```vba
 Private Function dikdortgen(aralik As Range, f As Single, Optional hangisi = "x")
