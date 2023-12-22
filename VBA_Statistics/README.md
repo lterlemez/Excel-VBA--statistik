@@ -92,7 +92,42 @@ End Function
 ## Preperation to Histogram Plot
 In this section, I have two VBA code blocks for preperation to histogram plot and ploting of it. The first one, _function routine_ ***dikdortgen*** which means rectangular and written as "dikdörtgen", prepares the drawing points of the rectangulars representing the data groups in the plot, and the second one, _sub routine_ ***histo***, will plot the histogram with the help of ***dikdortgen***.
 
+### Form Design for the Macro
+
+<img src="https://github.com/lterlemez/Excel-VBA-Istatistik/blob/main/VBA_Statistics/media/hist_form_tasarimi.PNG" width="400"/>
+
+***Figure 1:*** *Form design for the macro*
+
+Designed using 3 refedits, 5 labels, 1 combobox, 1 textbox, 1 checkbox and 1 button objects.
+
 ```vba
+Private Sub ComboBox1_Change()
+    If ComboBox1.ListIndex = 6 Then
+        TextBox1.Visible = True
+        Label4.Visible = True
+    Else
+        TextBox1.Visible = False
+        TextBox1.Text = Empty
+        Label4.Visible = False
+    End If
+End Sub
+Private Sub UserForm_Initialize()
+    With ComboBox1
+        .AddItem "Karekök"
+        .AddItem "Sturges"
+        .AddItem "Rice"
+        .AddItem "Doane"
+        .AddItem "Scott"
+        .AddItem "Freedman-Diaconis"
+        .AddItem "Özel"
+        .ListIndex = 0
+    End With
+    TextBox1.Visible = False
+    TextBox1.Text = Empty
+    Label4.Visible = False
+    RefEdit3.SetFocus
+    UserForm1.Caption = "Histogram ve Frekans Poligonu Grafikleri"
+End Sub
 Private Function dikdortgen(aralik As Range, f As Single, Optional hangisi = "x")
     dortgenx = Array(aralik.Cells(1, 1), aralik.Cells(1, 1), aralik.Cells(1, 2), aralik.Cells(1, 2), aralik.Cells(1, 1))
     dortgeny = Array(0, f, f, 0, 0)
@@ -111,7 +146,7 @@ This small function code can calculate **arithmetic mean** (metot=1 ,default) , 
 
 <img src="https://github.com/lterlemez/Excel-VBA-Istatistik/blob/main/VBA_Statistics/media/grup_seri.PNG" width="400"/>
 
-***Figure 1:*** *Calculation example for grouped frequency distribution*
+***Figure 2:*** *Calculation example for grouped frequency distribution*
 
 Flowchart of the calculation algorithym for grouped data:
 
