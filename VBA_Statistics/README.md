@@ -94,7 +94,7 @@ In this section, I have two VBA code blocks for preperation to histogram plot an
 
 ### Form Design for the Macro
 
-<img src="https://github.com/lterlemez/Excel-VBA-Istatistik/blob/main/VBA_Statistics/media/hist_form_tasarimi.PNG" width="400"/>
+<img src="https://github.com/lterlemez/Excel-VBA-Istatistik/blob/main/VBA_Statistics/media/hist_form _tasarimi.png" width="400"/>
 
 ***Figure 1:*** *Form design for the macro*
 
