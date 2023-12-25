@@ -135,9 +135,9 @@ Private Sub CommandButton1_Click()
             Case 3
                 h = (.Max(veri) - .Min(veri))/grupla(veri, metot=4, yuvarla As Boolean = true)
             Case 4
-                h = (.Max(veri) - .Min(veri))/grupla(veri, metot=5, yuvarla As Boolean = true)
+                h = grupla(veri, metot=5, yuvarla As Boolean = true)
             Case 5
-                h = (.Max(veri) - .Min(veri))/grupla(veri, metot=6, yuvarla As Boolean = true)
+                h = grupla(veri, metot=6, yuvarla As Boolean = true)
             Case 6         
                 h = (.Max(veri) - .Min(veri)) / TextBox1.Text
         End With
