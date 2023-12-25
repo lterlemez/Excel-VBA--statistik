@@ -90,7 +90,7 @@ Function grupla(veri As Range, Optional metot As etiketler = Sturges, Optional y
 End Function
 ```
 ## Preperation to Histogram Plot
-In this section, I have two VBA code blocks for preperation to histogram plot and ploting of it. The first one, _function routine_ ***dikdortgen*** which means rectangular and written as "dikdörtgen", prepares the drawing points of the rectangulars representing the data groups in the plot, and the second one, _sub routine_ ***histo***, will plot the histogram with the help of ***dikdortgen***.
+In this section, I have two VBA code blocks for preperation to histogram plot and ploting of it. The first one, _function routine_ ***dikdortgen*** which means rectangular and written as "dikdörtgen", prepares the drawing points of the rectangulars representing the data groups in the plot, and the second one, _sub routine_ ***histo*** -but, for now, it is in _CommandButton event routine_-, will plot the histogram with the help of ***dikdortgen***.
 
 ### Form Design for the Macro
 
@@ -101,6 +101,9 @@ In this section, I have two VBA code blocks for preperation to histogram plot an
 Designed using 3 refedits, 5 labels, 1 combobox, 1 textbox, 1 checkbox and 1 button objects.
 
 ```vba
+'=============================================================================================
+'Grouping Method Controlling for Special Values
+'=============================================================================================
 Private Sub ComboBox1_Change()
     If ComboBox1.ListIndex = 6 Then
         TextBox1.Visible = True
@@ -111,6 +114,121 @@ Private Sub ComboBox1_Change()
         Label4.Visible = False
     End If
 End Sub
+'=============================================================================================
+'Grouping Data and Histogram Plot with Frequency Plot
+'=============================================================================================
+Private Sub CommandButton1_Click()
+    Dim veri As Range, c As Double, h As Double, si As Double
+    Dim i As Integer, j As Integer
+    
+    Set veri = Range(RefEdit1.Text)
+    Set cikti = Range(RefEdit2.Text)
+        
+    Select Case ComboBox1.ListIndex
+        With WorksheetFunction
+            Case 0
+                h = (.Max(veri) - .Min(veri))/grupla(veri, metot=1, yuvarla As Boolean = true)
+            Case 1
+                h = (.Max(veri) - .Min(veri))/grupla(veri, metot=2, yuvarla As Boolean = true)
+            Case 2
+                h = (.Max(veri) - .Min(veri))/grupla(veri, metot=3, yuvarla As Boolean = true)
+            Case 3
+                h = (.Max(veri) - .Min(veri))/grupla(veri, metot=4, yuvarla As Boolean = true)
+            Case 4
+                h = (.Max(veri) - .Min(veri))/grupla(veri, metot=5, yuvarla As Boolean = true)
+            Case 5
+                h = (.Max(veri) - .Min(veri))/grupla(veri, metot=6, yuvarla As Boolean = true)
+            Case 6         
+                h = (.Max(veri) - .Min(veri)) / TextBox1.Text
+        End With
+    End Select
+        
+    With WorksheetFunction
+        c = .Min(veri)
+        i = 0
+        Do
+            cikti.Offset(i, 0).Value = c
+            cikti.Offset(i, 1).Value = c + h
+            f = 0
+            For j = 1 To veri.Rows.Count
+                If veri(j, 1).Value >= c And veri(j, 1).Value < c + h Then
+                    f = f + 1
+                End If
+            Next j
+            cikti.Offset(i, 2).Value = f
+            If CheckBox1.Value = True Then cikti.Offset(i, 3).Value = .Average(c, c + h)
+            c = c + h
+            i = i + 1
+        Loop While c <= .Max(veri)
+    End With
+    
+    If CheckBox1.Value = False Then
+        Set grup = Range(cikti.Address & ":" & cikti.Offset(i - 1, 2).Address)
+    ElseIf CheckBox1.Value = True Then
+        Set grup = Range(cikti.Address & ":" & cikti.Offset(i - 1, 3).Address)
+    End If
+'=============================================================================================
+'Plotting Histogram
+'=============================================================================================
+    ActiveSheet.ChartObjects.Add Left:=cikti.Offset(0, 4).Left, Top:=cikti.Offset(0, 4).Top, Width:=500, Height:=500
+    ActiveSheet.ChartObjects(ActiveSheet.ChartObjects.Count).Activate
+    With ActiveChart
+        .ChartType = xlXYScatterLines
+        .HasTitle = True
+        If CheckBox1.Value = False Then
+            .ChartTitle.Text = "Histogram" & vbLf & ComboBox1.List(ComboBox1.ListIndex)
+        ElseIf CheckBox1.Value = True Then
+            .ChartTitle.Text = "Histogram ve Frekans Poligonu" & vbLf & ComboBox1.List(ComboBox1.ListIndex)
+        End If
+        .Axes(xlCategory).HasTitle = True
+        If RefEdit3.Text = Empty Then
+            .Axes(xlCategory).AxisTitle.Text = "X"
+        Else
+            .Axes(xlCategory).AxisTitle.Text = Range(RefEdit3.Text).Cells.Value
+        End If
+        .Axes(xlValue).HasTitle = True
+        .Axes(xlValue).AxisTitle.Text = "Frekans"
+        .Axes(xlCategory).MajorUnit = h
+        .Axes(xlCategory).MinimumScale = WorksheetFunction.Min(veri) - h
+        .Axes(xlCategory).CrossesAt = WorksheetFunction.Min(veri) - h
+        .Axes(xlCategory, xlPrimary).TickLabels.NumberFormat = "#0,#0"
+        .Axes(xlCategory).TickLabels.Orientation = 45
+        For i = 1 To grup.Rows.Count
+            y = dikdortgen(Range(grup.Cells(i, 1), grup.Cells(i, 2)), grup.Cells(i, 3), "y")
+            x = dikdortgen(Range(grup.Cells(i, 1), grup.Cells(i, 2)), grup.Cells(i, 3), "x")
+            .SeriesCollection.NewSeries
+            .SeriesCollection(.SeriesCollection.Count).Values = y
+            .SeriesCollection(.SeriesCollection.Count).XValues = x
+            .SeriesCollection(.SeriesCollection.Count).Border.Color = RGB(0, 0, 255)
+            .SeriesCollection(.SeriesCollection.Count).Format.Line.Weight = 1.5
+            .SeriesCollection(.SeriesCollection.Count).MarkerStyle = xlMarkerStyleNone
+            If i = 1 And RefEdit3.Text = Empty Then
+                .SeriesCollection(.SeriesCollection.Count).Name = "X"
+            Else
+                .SeriesCollection(.SeriesCollection.Count).Name = Range(RefEdit3.Text).Cells.Value
+            End If
+        Next i
+        Debug.Print "Entry Count=" & .Legend.LegendEntries.Count
+        i = .Legend.LegendEntries.Count
+        Do While i > 1
+            .Legend.LegendEntries(i).Delete
+            i = i - 1
+        Loop
+        If CheckBox1.Value = True Then
+            .SeriesCollection.NewSeries
+            .SeriesCollection(.SeriesCollection.Count).Values = grup.Columns(3)
+            .SeriesCollection(.SeriesCollection.Count).XValues = grup.Columns(4)
+            .SeriesCollection(.SeriesCollection.Count).Border.Color = RGB(255, 0, 0)
+            .SeriesCollection(.SeriesCollection.Count).Format.Line.Weight = 1.5
+            .SeriesCollection(.SeriesCollection.Count).MarkerStyle = xlMarkerStyleNone
+            .SeriesCollection(.SeriesCollection.Count).Name = "Frek. Poligonu"
+        End If        
+    End With
+    Unload Me
+End Sub
+'=============================================================================================
+'Form Initialization Event
+'=============================================================================================
 Private Sub UserForm_Initialize()
     With ComboBox1
         .AddItem "Karekök"
@@ -128,6 +246,9 @@ Private Sub UserForm_Initialize()
     RefEdit3.SetFocus
     UserForm1.Caption = "Histogram ve Frekans Poligonu Grafikleri"
 End Sub
+'=============================================================================================
+'Prepreparation Function for Histogram Plot
+'=============================================================================================
 Private Function dikdortgen(aralik As Range, f As Single, Optional hangisi = "x")
     dortgenx = Array(aralik.Cells(1, 1), aralik.Cells(1, 1), aralik.Cells(1, 2), aralik.Cells(1, 2), aralik.Cells(1, 1))
     dortgeny = Array(0, f, f, 0, 0)
