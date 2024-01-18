@@ -289,7 +289,7 @@ End Function
 
 ***Figure 2:*** *An example with Excel generated Random 1 ~ N(0, 1)*
 
-You can also download sample data with this link: [Random 1 ~ N(0, 1)](VBA_Statistics/sample_data/example_data.csv)
+You can also download sample data with this link: [Random 1 ~ N(0, 1)](/sample_data/example_data.csv)
 
 ## Some Central Tendency Measures
 
