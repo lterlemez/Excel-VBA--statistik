@@ -260,6 +260,13 @@ Private Function dikdortgen(aralik As Range, f As Single, Optional hangisi = "x"
         End Select
 End Function
 ```
+### Example Data
+
+<img src="https://github.com/lterlemez/Excel-VBA-Istatistik/blob/main/VBA_Statistics/media/example_data.png" width="400"/>
+
+***Figure 2:*** *An example with Excel generated Random 1 ~ N(0, 1)*
+
+You can also download sample data with this link: 
 
 ## Some Central Tendency Measures
 
