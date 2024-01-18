@@ -98,7 +98,7 @@ In this section, I have two VBA code blocks for preperation to histogram plot an
 
 ***Figure 1:*** *Form design for the macro*
 
-Designed using 3 refedits, 5 labels, 1 combobox, 1 textbox, 1 checkbox and 1 button objects.
+Designed using 3 refedits (as series name range, input range and output range respectively), 5 labels, 1 combobox, 1 textbox, 1 checkbox and 1 button objects.
 
 ```vba
 '=============================================================================================
@@ -118,8 +118,9 @@ End Sub
 'Grouping Data and Histogram Plot with Frequency Plot
 '=============================================================================================
 Private Sub CommandButton1_Click()
-    Dim veri As Range, c As Double, h As Double, si As Double
-    Dim i As Integer, j As Integer
+    Dim veri As Range, cikti As Range, grup As Range, mini As Double, c As Double, h As Double, si As Double
+    Dim i As Integer, j As Integer, f As Integer, radd As Integer, crem As Integer ', data() As Double
+    Dim x As Variant, y As Variant
     
     Set veri = Range(RefEdit1.Text)
     Set cikti = Range(RefEdit2.Text)
@@ -127,50 +128,68 @@ Private Sub CommandButton1_Click()
     Select Case ComboBox1.ListIndex
         With WorksheetFunction
             Case 0
-                h = (.Max(veri) - .Min(veri))/grupla(veri, metot=1, yuvarla As Boolean = true)
+                h = (.Max(veri) - .Min(veri))/grupla(veri, metot=1, yuvarla = true)
             Case 1
-                h = (.Max(veri) - .Min(veri))/grupla(veri, metot=2, yuvarla As Boolean = true)
+                h = (.Max(veri) - .Min(veri))/grupla(veri, metot=2, yuvarla = true)
             Case 2
-                h = (.Max(veri) - .Min(veri))/grupla(veri, metot=3, yuvarla As Boolean = true)
+                h = (.Max(veri) - .Min(veri))/grupla(veri, metot=3, yuvarla = true)
             Case 3
-                h = (.Max(veri) - .Min(veri))/grupla(veri, metot=4, yuvarla As Boolean = true)
+                h = (.Max(veri) - .Min(veri))/grupla(veri, metot=4, yuvarla = true)
             Case 4
-                h = grupla(veri, metot=5, yuvarla As Boolean = true)
+                h = grupla(veri, metot=5, yuvarla = true)
             Case 5
-                h = grupla(veri, metot=6, yuvarla As Boolean = true)
+                h = grupla(veri, metot=6, yuvarla = true)
             Case 6         
                 h = (.Max(veri) - .Min(veri)) / TextBox1.Text
         End With
     End Select
         
     With WorksheetFunction
-        c = .Min(veri)
+        mini = .Floor(.Min(veri), 0.01)
+        c = .Floor(.Min(veri), 0.01)
+        h = .Floor(h, 0.01)
         i = 0
+
+        'Row adding for data, and row deleting for chart if selected output cell is in the first row.
+        If cikti.Row > 1 Then
+            radd = 0
+            crem = 1
+        Else
+            radd = 1
+            crem = 0
+        End If
+        cikti.Offset(radd + i - 1, 0).Value = "Groups"
+        cikti.Offset(radd + i - 1, 2).Value = "f"
+        If CheckBox1.Value Then
+            cikti.Offset(radd + i - 1, 3).Value = "g_mid"
+        End If
+        
+        'Creating the grouped frequency distribution table
         Do
-            cikti.Offset(i, 0).Value = c
-            cikti.Offset(i, 1).Value = c + h
+            cikti.Offset(radd + i, 0).Value = c
+            cikti.Offset(radd + i, 1).Value = c + h
             f = 0
             For j = 1 To veri.Rows.Count
-                If veri(j, 1).Value >= c And veri(j, 1).Value < c + h Then
+               If veri(j, 1).Value >= c And veri(j, 1) < (c + h) Then
                     f = f + 1
                 End If
             Next j
-            cikti.Offset(i, 2).Value = f
-            If CheckBox1.Value = True Then cikti.Offset(i, 3).Value = .Average(c, c + h)
+            cikti.Offset(radd + i, 2).Value = f
+            If CheckBox1.Value = True Then cikti.Offset(radd + i, 3).Value = .Average(c, c + h)
             c = c + h
             i = i + 1
         Loop While c <= .Max(veri)
     End With
     
     If CheckBox1.Value = False Then
-        Set grup = Range(cikti.Address & ":" & cikti.Offset(i - 1, 2).Address)
+        Set grup = Range(cikti.Offset(radd + 0, 0).Address & ":" & cikti.Offset(radd + i - 1, 2).Address)
     ElseIf CheckBox1.Value = True Then
-        Set grup = Range(cikti.Address & ":" & cikti.Offset(i - 1, 3).Address)
+        Set grup = Range(cikti.Offset(radd + 0, 0).Address & ":" & cikti.Offset(radd + i - 1, 3).Address)
     End If
 '=============================================================================================
 'Plotting Histogram
 '=============================================================================================
-    ActiveSheet.ChartObjects.Add Left:=cikti.Offset(0, 4).Left, Top:=cikti.Offset(0, 4).Top, Width:=500, Height:=500
+    ActiveSheet.ChartObjects.Add Left:=cikti.Offset(0, 4).Left, Top:=cikti.Offset(0 - crem, 4).Top, Width:=500, Height:=500
     ActiveSheet.ChartObjects(ActiveSheet.ChartObjects.Count).Activate
     With ActiveChart
         .ChartType = xlXYScatterLines
@@ -188,9 +207,12 @@ Private Sub CommandButton1_Click()
         End If
         .Axes(xlValue).HasTitle = True
         .Axes(xlValue).AxisTitle.Text = "Frekans"
+        .Axes(xlValue).MaximumScale = WorksheetFunction.Round(WorksheetFunction.Max(grup.Columns(3)) * 1.05, 0)
+        .Axes(xlValue).MinimumScale = 0
         .Axes(xlCategory).MajorUnit = h
-        .Axes(xlCategory).MinimumScale = WorksheetFunction.Min(veri) - h
-        .Axes(xlCategory).CrossesAt = WorksheetFunction.Min(veri) - h
+        .Axes(xlCategory).MaximumScale = c + 1.5 * h
+        .Axes(xlCategory).MinimumScale = mini - h
+        .Axes(xlCategory).CrossesAt = mini - h
         .Axes(xlCategory, xlPrimary).TickLabels.NumberFormat = "#0,#0"
         .Axes(xlCategory).TickLabels.Orientation = 45
         For i = 1 To grup.Rows.Count
@@ -202,18 +224,19 @@ Private Sub CommandButton1_Click()
             .SeriesCollection(.SeriesCollection.Count).Border.Color = RGB(0, 0, 255)
             .SeriesCollection(.SeriesCollection.Count).Format.Line.Weight = 1.5
             .SeriesCollection(.SeriesCollection.Count).MarkerStyle = xlMarkerStyleNone
-            If i = 1 And RefEdit3.Text = Empty Then
-                .SeriesCollection(.SeriesCollection.Count).Name = "X"
-            Else
-                .SeriesCollection(.SeriesCollection.Count).Name = Range(RefEdit3.Text).Cells.Value
+            If i = 1 And (RefEdit3.Text = Empty Or RefEdit3.Text = Null) Then
+                .SeriesCollection(.SeriesCollection.Count).Name = "Hist: X"
+            ElseIf i = 1 Then
+                .SeriesCollection(.SeriesCollection.Count).Name = "Hist: " & Range(RefEdit3.Text).Cells.Value
             End If
         Next i
-        Debug.Print "Entry Count=" & .Legend.LegendEntries.Count
+        
         i = .Legend.LegendEntries.Count
         Do While i > 1
-            .Legend.LegendEntries(i).Delete
-            i = i - 1
+                .Legend.LegendEntries(i).Delete
+                i = i - 1
         Loop
+        .Legend.Position = xlLegendPositionBottom
         If CheckBox1.Value = True Then
             .SeriesCollection.NewSeries
             .SeriesCollection(.SeriesCollection.Count).Values = grup.Columns(3)
@@ -222,7 +245,7 @@ Private Sub CommandButton1_Click()
             .SeriesCollection(.SeriesCollection.Count).Format.Line.Weight = 1.5
             .SeriesCollection(.SeriesCollection.Count).MarkerStyle = xlMarkerStyleNone
             .SeriesCollection(.SeriesCollection.Count).Name = "Frek. Poligonu"
-        End If        
+        End If
     End With
     Unload Me
 End Sub
@@ -266,7 +289,7 @@ End Function
 
 ***Figure 2:*** *An example with Excel generated Random 1 ~ N(0, 1)*
 
-You can also download sample data with this link: 
+You can also download sample data with this link: [Random 1 ~ N(0, 1)](VBA_Statistics/sample_data/example_data.csv)
 
 ## Some Central Tendency Measures
 
@@ -274,7 +297,7 @@ This small function code can calculate **arithmetic mean** (metot=1 ,default) , 
 
 <img src="https://github.com/lterlemez/Excel-VBA-Istatistik/blob/main/VBA_Statistics/media/grup_seri.PNG" width="400"/>
 
-***Figure 2:*** *Calculation example for grouped frequency distribution*
+***Figure 3:*** *Calculation example for grouped frequency distribution*
 
 Flowchart of the calculation algorithym for grouped data:
 
