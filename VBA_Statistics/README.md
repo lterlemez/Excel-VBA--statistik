@@ -374,6 +374,10 @@ End Function
 
 If series' column count is 1 then it is assumed as simple series, if it is 2 then is assumed as frequency ditribution series, and if it is 3 then is assumed as grouped frequency distribution series and otherwise en error message will be shown.
 
+&nbsp;&nbsp;&nbsp;&nbsp; $\mu_r=\frac{\sum_{i=1}^{n} x_i^r}{n}$
+
+&nbsp;&nbsp;&nbsp;&nbsp; $\mu_r=\frac{\sum_{i=1}^k {x_i^r \cdot f_i}}{n}$
+
 Flowchart of calculation algorithym for simple series:
 
 ```mermaid
