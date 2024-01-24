@@ -374,9 +374,9 @@ End Function
 
 If series' column count is 1 then it is assumed as simple series, if it is 2 then is assumed as frequency ditribution series, and if it is 3 then is assumed as grouped frequency distribution series and otherwise en error message will be shown.
 
-&nbsp;&nbsp;&nbsp;&nbsp; $\mu_r=\frac{\sum_{i=1}^{n} x_i^r}{n}$
+&nbsp;&nbsp;&nbsp;&nbsp; $\mu_r=\frac{\sum\nolimits _{i=1}^{n} x_i^r}{n} $
 
-&nbsp;&nbsp;&nbsp;&nbsp; $\mu_r=\frac{\sum_{i=1}^k {x_i^r \cdot f_i}}{n}$
+&nbsp;&nbsp;&nbsp;&nbsp; $\mu_r=\frac{ \sum\\nolimits _{i=1}^k x_i^r\cdot f_i}{n}$
 
 Flowchart of calculation algorithym for simple series:
 
@@ -431,7 +431,14 @@ End Function
 
 ## Central Moments of a Distribution
 
-This code is consist of conversition formulas from raw moments, but it will have classic formula calculations, too. <img src="https://github.com/lterlemez/Excel-VBA-Istatistik/blob/main/VBA_Statistics/media/moment_cent.png" width="400"/> </br> <img src="https://github.com/lterlemez/Excel-VBA-Istatistik/blob/main/VBA_Statistics/media/moment_cent_org.png" width="400"/>
+This code is consist of conversition formulas from raw moments, but it will have classic formula calculations, too.
+
+&nbsp;&nbsp;&nbsp;&nbsp; $m_r=\frac{\sum\nolimits _{i=1}^{n} \(x_i-\bar{x}\)^r}{n} $
+
+&nbsp;&nbsp;&nbsp;&nbsp; $m_r=\frac{ \sum\\nolimits _{i=1}^k \(x_i-\bar{x}\)^r\cdot f_i}{n}$
+
+
+<img src="https://github.com/lterlemez/Excel-VBA-Istatistik/blob/main/VBA_Statistics/media/moment_cent.png" width="400"/> </br> <img src="https://github.com/lterlemez/Excel-VBA-Istatistik/blob/main/VBA_Statistics/media/moment_cent_org.png" width="400"/>
 
 ``` vba
 Function moment_cent(moments As Range, Optional convert As Boolean = True, Optional r As Integer = 1, Optional mean As Single = 0)
