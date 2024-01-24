@@ -431,12 +431,13 @@ End Function
 
 ## Central Moments of a Distribution
 
-This code is consist of conversition formulas from raw moments, but it will have classic formula calculations, too.
+This code consists of a transformation formula from raw moments, but it also has classic formula calculations, which also consider the column number of the series as in raw moment calculations. For transformation, appropriate raw moments should be selected.
 
-&nbsp;&nbsp;&nbsp;&nbsp; $m_r=\frac{\sum\nolimits _{i=1}^{n} \(x_i-\bar{x}\)^r}{n} $
+&nbsp;&nbsp;&nbsp;&nbsp; $m_r=\frac{\sum\nolimits _{i=1}^{n} \(x_i-\bar{x}\)^r}{n}$
 
 &nbsp;&nbsp;&nbsp;&nbsp; $m_r=\frac{ \sum\\nolimits _{i=1}^k \(x_i-\bar{x}\)^r\cdot f_i}{n}$
 
+&nbsp;&nbsp;&nbsp;&nbsp; $m_r=\sum\nolimits_{i=0}^r \binom{r}{i} \(-1\)^{\(r-i\)}\mu_i\mu_1^{r-i}$
 
 <img src="https://github.com/lterlemez/Excel-VBA-Istatistik/blob/main/VBA_Statistics/media/moment_cent.png" width="400"/> </br> <img src="https://github.com/lterlemez/Excel-VBA-Istatistik/blob/main/VBA_Statistics/media/moment_cent_org.png" width="400"/>
 
@@ -445,12 +446,10 @@ Function moment_cent(moments As Range, Optional convert As Boolean = True, Optio
     Dim t As Single
     t = 0
     With moments
-        Debug.Print "Row Count: " & .Rows.Count
         Select Case convert
             Case True
                 For j = 0 To .Rows.Count - 1
                     t = t + WorksheetFunction.Combin(.Rows.Count - 1, j) * (-1) ^ (.Rows.Count - 1 - j) * .Rows(j + 1) * .Rows(2) ^ (.Rows.Count - 1 - j)
-                    Debug.Print "j= " & .Rows(j + 1) & " " & t
                 Next j
                 moment_cent = t
             Case False
