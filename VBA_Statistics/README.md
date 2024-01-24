@@ -437,7 +437,7 @@ This code consists of a transformation formula from raw moments, but it also has
 
 &nbsp;&nbsp;&nbsp;&nbsp; $m_r=\frac{ \sum\\nolimits _{i=1}^k \(x_i-\bar{x}\)^r\cdot f_i}{n}$
 
-&nbsp;&nbsp;&nbsp;&nbsp; $m_r=\sum\nolimits_{i=0}^r \binom{r}{i} \(-1\)^{\(r-i\)}\mu_i\mu_1^{r-i}$
+&nbsp;&nbsp;&nbsp;&nbsp; $m_r=\sum\nolimits_{i=0}^r \binom{r}{i} \(-1\)^{\(r-i\)}\mu_i\mu_1^{\(r-i\)}$
 
 <img src="https://github.com/lterlemez/Excel-VBA-Istatistik/blob/main/VBA_Statistics/media/moment_cent.png" width="400"/> </br> <img src="https://github.com/lterlemez/Excel-VBA-Istatistik/blob/main/VBA_Statistics/media/moment_cent_org.png" width="400"/>
 
